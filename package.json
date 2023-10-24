@@ -1,0 +1,40 @@
+{
+  "name": "js-runtime-checker",
+  "version": "0.0.1",
+  "description": "This is an npm library that can retrieve the currently running JavaScript Runtime environment.",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "unpkg": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build:types": "tsc",
+    "build:vite": "vite build",
+    "build": "npm run build:types && npm run build:vite && mv temp/*.d.ts dist/",
+    "prepublishOnly": "npm run build",
+    "test": "vitest",
+    "fmt": "deno fmt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shinshin86/js-runtime-checker"
+  },
+  "keywords": [
+    "runtime",
+    "javascript runtime",
+    "node.js",
+    "deno",
+    "bun"
+  ],
+  "author": "shinshin86 <shinshin86npm@gmail.com> (https://github.com/shinshin86)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shinshin86/js-runtime-checker/issues"
+  },
+  "homepage": "https://github.com/shinshin86/js-runtime-checker",
+  "devDependencies": {
+    "@types/node": "^20.8.8",
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0",
+    "vitest": "^0.34.6"
+  }
+}

@@ -1,0 +1,12 @@
+.git/
+.github/
+test/
+deno.jsonc
+logo/
+src/
+temp/
+tsconfig.json
+vite.config.js
+
+# mac
+.DS_Store
