@@ -1,6 +1,6 @@
 {
   "name": "js-runtime-checker",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "This is an npm library that can retrieve the currently running JavaScript Runtime environment.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
