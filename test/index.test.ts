@@ -1,12 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { getEnv } from "../src/index";
+import { getEnv, getVersion } from "../src/index";
 
 /**
  * TODO:
  * This test is different from the actual environment, so it is not an essential test.
  * Eventually, we would like to test whether we can obtain the expected values by actually executing the test from each environment.
  */
-describe("getEnv function tests", () => {
+describe("index.ts test", () => {
   let tempProcess;
 
   beforeEach(() => {
@@ -24,36 +24,74 @@ describe("getEnv function tests", () => {
     global.process = tempProcess;
   });
 
-  it('should return "deno" if Deno is defined', () => {
-    // mock
-    global.Deno = {} as any;
-    expect(getEnv()).toBe("deno");
+  describe("getEnv function tests", () => {
+    it('should return "deno" if Deno is defined', () => {
+      // mock
+      global.Deno = {} as any;
+      expect(getEnv()).toBe("deno");
+    });
+
+    it('should return "bun" if Bun is defined', () => {
+      // mock
+      global.Bun = {} as any;
+      expect(getEnv()).toBe("bun");
+    });
+
+    it('should return "nodejs" if process is defined', () => {
+      // mock
+      global.process = {
+        versions: {
+          node: "v1.0.0",
+        },
+      } as any;
+
+      expect(getEnv()).toBe("nodejs");
+    });
+
+    it('should return "browser" if window is defined', () => {
+      // mock
+      global.window = {} as any;
+      expect(getEnv()).toBe("browser");
+    });
+
+    it('should return "unknown" if the environment is not recognized', () => {
+      expect(getEnv()).toBe("unknown");
+    });
   });
 
-  it('should return "bun" if Bun is defined', () => {
-    // mock
-    global.Bun = {} as any;
-    expect(getEnv()).toBe("bun");
-  });
+  describe("getVersion function tests", () => {
+    const versionText = "1.0.0";
+    it('should return "deno" version if Deno is defined', () => {
+      // mock
+      global.Deno = { version: { deno: versionText } } as any;
+      expect(getVersion()).toBe(versionText);
+    });
 
-  it('should return "nodejs" if process is defined', () => {
-    // mock
-    global.process = {
-      versions: {
-        node: "v18.12.1",
-      },
-    } as any;
+    it('should return "bun" version if Bun is defined', () => {
+      // mock
+      global.Bun = { version: versionText } as any;
+      expect(getVersion()).toBe(versionText);
+    });
 
-    expect(getEnv()).toBe("nodejs");
-  });
+    it('should return "nodejs" version if process is defined', () => {
+      // mock
+      global.process = {
+        versions: {
+          node: versionText,
+        },
+      } as any;
 
-  it('should return "browser" if window is defined', () => {
-    // mock
-    global.window = {} as any;
-    expect(getEnv()).toBe("browser");
-  });
+      expect(getVersion()).toBe(versionText);
+    });
 
-  it('should return "unknown" if the environment is not recognized', () => {
-    expect(getEnv()).toBe("unknown");
+    it('should return "unknown" if window is defined', () => {
+      // mock
+      global.window = {} as any;
+      expect(getVersion()).toBe("unknown");
+    });
+
+    it('should return "unknown" if the environment is not recognized', () => {
+      expect(getVersion()).toBe("unknown");
+    });
   });
 });

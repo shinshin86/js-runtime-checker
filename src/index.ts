@@ -17,3 +17,18 @@ export function getEnv(): Environment {
     return "unknown";
   }
 }
+
+export function getVersion(): string {
+  switch (getEnv()) {
+    case "deno":
+      // @ts-ignore
+      return Deno.version.deno;
+    case "bun":
+      // @ts-ignore
+      return Bun.version;
+    case "nodejs":
+      return process.versions.node;
+    default:
+      return "unknown";
+  }
+}
